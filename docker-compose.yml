@@ -1,0 +1,37 @@
+services:
+  minecraft-bedrock:
+    image: itzg/minecraft-bedrock-server
+    container_name: minecraft-bedrock-server
+    ports:
+      - "${SERVER_PORT:-19132}:19132/udp"  # Expose the Bedrock server port (default: 19132)
+    environment:
+      EULA: "${EULA:-TRUE}"  # Must be set to TRUE to accept the Minecraft EULA
+      VERSION: "${VERSION:-LATEST}"  # Minecraft server version, defaulting to the latest
+      GAMEMODE: "${GAMEMODE:-survival}"  # Game mode (creative, survival, etc.)
+      DIFFICULTY: "${DIFFICULTY:-normal}"  # Difficulty level (peaceful, easy, normal, hard)
+      LEVEL_TYPE: "${LEVEL_TYPE:-DEFAULT}"  # World generation type (flat, DEFAULT, etc.)
+      ALLOW_CHEATS: "${ALLOW_CHEATS:-false}"  # Allow cheats (true/false)
+      MAX_PLAYERS: "${MAX_PLAYERS:-10}"  # Max players (default: 10)
+      ONLINE_MODE: "${ONLINE_MODE:-true}"  # Online mode (true/false)
+      WHITE_LIST: "${WHITE_LIST:-false}"  # Enable whitelist (true/false)
+      VIEW_DISTANCE: "${VIEW_DISTANCE:-10}"  # View distance in chunks
+      TICK_DISTANCE: "${TICK_DISTANCE:-4}"  # Tick distance for chunk updates
+      PLAYER_IDLE_TIMEOUT: "${PLAYER_IDLE_TIMEOUT:-30}"  # Idle timeout for players in minutes
+      MAX_THREADS: "${MAX_THREADS:-8}"  # Max server threads
+      LEVEL_NAME: "${LEVEL_NAME:-BedrockLevel}"  # World name
+      LEVEL_SEED: "${LEVEL_SEED:-}"  # World seed, empty for random
+      DEFAULT_PLAYER_PERMISSION_LEVEL: "${DEFAULT_PLAYER_PERMISSION_LEVEL:-member}"  # Default player permission level
+      TEXTUREPACK_REQUIRED: "${TEXTUREPACK_REQUIRED:-false}"  # Require texture pack (true/false)
+      SERVER_AUTHORITATIVE_MOVEMENT: "${SERVER_AUTHORITATIVE_MOVEMENT:-server-auth}"  # Server authoritative movement (server-auth/client-auth)
+      PLAYER_MOVEMENT_SCORE_THRESHOLD: "${PLAYER_MOVEMENT_SCORE_THRESHOLD:-20}"  # Movement score threshold
+      PLAYER_MOVEMENT_DISTANCE_THRESHOLD: "${PLAYER_MOVEMENT_DISTANCE_THRESHOLD:-0.3}"  # Movement distance threshold
+      PLAYER_MOVEMENT_DURATION_THRESHOLD_IN_MS: "${PLAYER_MOVEMENT_DURATION_THRESHOLD_IN_MS:-500}"  # Movement duration threshold in ms
+      CORRECT_PLAYER_MOVEMENT: "${CORRECT_PLAYER_MOVEMENT:-false}"  # Correct player movement (true/false)
+      UID: "${UID:-1000}"  # User ID to run the server process as
+      GID: "${GID:-1000}"  # Group ID to run the server process as
+      PACKAGE_BACKUP_KEEP: "${PACKAGE_BACKUP_KEEP:-2}"  # Number of package backups to keep
+    volumes:
+      - ./data:/data  # Persist data to ./data directory on the host
+
+    stdin_open: true  # Keep stdin open for server command execution
+    tty: true  # Allocate a pseudo-TTY for interactive console
